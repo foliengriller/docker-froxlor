@@ -3,8 +3,8 @@
 version: '3'
 
 services:
-  db:
-    container_name: db
+  database:
+    container_name: database
     image: mariadb:latest
     restart: always
     env_file: db.env
@@ -17,7 +17,9 @@ services:
     build: .
     container_name: froxlor
     depends_on:
-      - db
+      - database
+    links:
+      - "database:database"
     volumes:
       - ./froxlor:/var/www/html/froxlor
     restart: always
