@@ -7,6 +7,9 @@ services:
     container_name: db
     image: mariadb:latest
     restart: always
+    env_file: db.env
+    volumes:
+      - ./froxlor:/var/www/html/froxlor
     ports:
       - "9906:3306"
 
