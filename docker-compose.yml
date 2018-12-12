@@ -1,19 +1,24 @@
-version: '2.0'
+# ./docker-compose.yml
+
+version: '3'
 
 services:
+  db:
+    container_name: db
+    image: mariadb:latest
+    restart: always
+    ports:
+      - "9906:3306"
+
   froxlor:
     build: .
+    container_name: froxlor
+    depends_on:
+      - db
+    volumes:
+      - ./froxlor:/var/www/html/froxlor
     restart: always
     ports:
       - 8080:80
-    volumes:
-      - ./froxlor:/var/www/html/froxlor
-    links:
-      - db:database
-
-  db:
-    image: mariadb:latest
-    restart: always
-    env_file: db.env
-    volumes:
-      - ./database:/var/lib/mysql
+    stdin_open: true
+    tty: true
